@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom';
 // aqui a gente está importando os componentes das nossas páginas
 import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
+import Dashboard from '../pages/Dashboard';
 
 
 // aqui é o componente das nossa navegação entre páginas
@@ -15,6 +16,7 @@ function RoutesApp() {
         <Routes>
             <Route path="/" element={ <SignIn/> }/>
             <Route path='/register' element={ <SignUp/> }/>
+            <Route path='/dashboard' element={ <Dashboard/> }/>
         </Routes>
     )
 }
