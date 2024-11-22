@@ -7,6 +7,16 @@ export default function SignUp() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    function handleSubmit(e) {
+        e.preventDefault();
+        // aqui ele evita que a página seja atualizada ao enviar o form
+
+        // se o usuário informou todos os campos, vamos deixar ele seguir
+        if(name !== '' && email !== '' && password !== '') {
+            alert('FAZER CADASTRO')
+        }
+    }
+
     
     return (
         <div className="container-center">
@@ -15,7 +25,7 @@ export default function SignUp() {
                     <img src={logo} alt='Logo do sistema de chamados'/>
                 </div>
 
-                <form>
+                <form onSubmit={handleSubmit}>
                     <h1>Nova conta</h1>
                     <input 
                         type='text'

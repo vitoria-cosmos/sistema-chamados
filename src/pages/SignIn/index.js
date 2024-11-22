@@ -1,7 +1,8 @@
 // componente do sign in
 // página de login
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+// o useContext é para podermos utilizar os contextos
 import './signin.css';
 
 import logo from '../../assets/logo.png';
@@ -9,11 +10,26 @@ import logo from '../../assets/logo.png';
 // o link é para podermos navegar para outra página
 import { Link } from 'react-router-dom';
 
+// aqui vamos importar o contexto que criamos
+import { AuthContext } from '../../contexts/auth'
+
 
 export default function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    // estamos buscando o signIn
+    const { signIn } = useContext(AuthContext);
+
+    function handleSignIn(e) {
+        e.preventDefault();
+        // alert('TESTE');
+
+        if(email !== '' && password !== ''){
+            signIn(email, password);
+        }
+
+    }
     return (
         <div className="container-center">
             <div className='login'>
@@ -21,7 +37,7 @@ export default function SignIn() {
                     <img src={logo} alt='Logo do sistema de chamados'/>
                 </div>
 
-                <form>
+                <form onSubmit={handleSignIn}>
                     <h1>Entrar</h1>
                     <input 
                         type='text'
