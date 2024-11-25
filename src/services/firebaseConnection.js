@@ -1,5 +1,5 @@
 // inicializar o app
-import { inicializeApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 
 // serve para pegarmos o auth para podermos fazer a autenticação de usuários
 import { getAuth } from 'firebase/auth';
@@ -22,7 +22,7 @@ const firebaseConfig = {
 };
 
 // inicializa o o banco de dados com as configurações
-const firebaseApp = inicializeApp(firebaseConfig);
+const firebaseApp = initializeApp(firebaseConfig);
 
 // pega o auth do firebase
 const auth = getAuth(firebaseApp);

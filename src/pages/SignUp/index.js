@@ -1,19 +1,27 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.png';
+
+import { AuthContext } from '../../contexts/auth';
 
 export default function SignUp() {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    function handleSubmit(e) {
+    // aqui estamos usando o contexto
+    // estamos trazendo a função signUp do nosso contexto
+    const { signUp, loadingAuth } = useContext(AuthContext);
+
+    async function handleSubmit(e) {
         e.preventDefault();
         // aqui ele evita que a página seja atualizada ao enviar o form
 
         // se o usuário informou todos os campos, vamos deixar ele seguir
         if(name !== '' && email !== '' && password !== '') {
-            alert('FAZER CADASTRO')
+            // alert('FAZER CADASTRO')
+            await signUp(email, password, name);
+            
         }
     }
 
@@ -49,7 +57,9 @@ export default function SignUp() {
                     
                     />
 
-                    <button type='submit'>Cadastrar</button>
+                    <button type='submit'>
+                        {loadingAuth ? 'Carregando...' : 'Cadastrar'}
+                    </button>
                 </form>
 
                 <Link to='/'>Já possui uma conta? Faça login</Link>

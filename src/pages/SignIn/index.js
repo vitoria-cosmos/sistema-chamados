@@ -21,6 +21,7 @@ export default function SignIn() {
     // estamos buscando o signIn
     const { signIn } = useContext(AuthContext);
 
+
     function handleSignIn(e) {
         e.preventDefault();
         // alert('TESTE');
