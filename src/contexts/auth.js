@@ -12,6 +12,9 @@ import { doc, getDoc, setDoc } from 'firebase/firestore';
 // hook para que possamos navegar para a página dashboard
 import { useNavigate } from 'react-router-dom';
 
+// importar o toast para que as notificações sejam personalizadas!
+import { toast } from 'react-toastify';
+
 export const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
@@ -55,6 +58,8 @@ function AuthProvider({ children }) {
 
                 setLoadingAuth(false);
                 storageUser(data);
+                // toast ao entrar na tela de dashboard
+                toast.success('Seja bem-vindo ao sistema!');
                 // usando o navigate para redirecionar o usuário para a página de dashboard
                 navigate('/dashboard');
             })
