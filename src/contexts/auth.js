@@ -4,7 +4,8 @@ import { useState, createContext, useEffect } from 'react';
 import { auth, db } from '../services/firebaseConnection';
 
 // importando o método para que possamos criar uma conta
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+// depois, vamos importar o método de fazer login
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 // agora vamos pegar os métodos para acessar o banc de dados
 import { doc, getDoc, setDoc } from 'firebase/firestore';
@@ -24,10 +25,39 @@ function AuthProvider({ children }) {
     // instanciando o navigate
     const navigate = useNavigate();
 
-    function signIn(email, password) {
-        console.log(email);
-        console.log(password);
-        alert('LOGADO COM SUCESSO')
+    async function signIn(email, password) {
+        // console.log(email);
+        // console.log(password);
+        // alert('LOGADO COM SUCESSO')
+
+        setLoadingAuth(true);
+        await signInWithEmailAndPassword(auth, email, password)
+        .then( async (value) => {
+            let uid = value.user.uid;
+
+            const docRef = doc(db, "users", uid);
+            // acessa os dados do usuário
+            const docSnap = await getDoc(docRef)
+
+            let data = {
+                uid: uid,
+                nome: docSnap.data().nome,
+                email: value.user.email,
+                avatarUrl: docSnap.data().avatarUrl
+            }
+
+            setUser(data);
+            // o localStorage vai sempre mudar quando lugar um outro usuário e assim por diante, nunca vai adicionar mais a lista
+            storageUser(data);
+            setLoadingAuth(false);
+            toast.success('Bem-vindo(a) de volta!');
+            navigate('/dashboard');
+        })
+        .catch((error) => {
+            console.log(error);
+            setLoadingAuth(false);
+            toast.error('Ops, algo deu errado!');
+        })
     }
 
     // Cadastrar um novo user
