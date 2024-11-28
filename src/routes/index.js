@@ -9,6 +9,9 @@ import SignIn from '../pages/SignIn';
 import SignUp from '../pages/SignUp';
 import Dashboard from '../pages/Dashboard';
 
+// importando o componente que deixa as rotas privadas
+import Private from './Private';
+
 
 // aqui é o componente das nossa navegação entre páginas
 function RoutesApp() {
@@ -16,7 +19,7 @@ function RoutesApp() {
         <Routes>
             <Route path="/" element={ <SignIn/> }/>
             <Route path='/register' element={ <SignUp/> }/>
-            <Route path='/dashboard' element={ <Dashboard/> }/>
+            <Route path='/dashboard' element={ <Private><Dashboard/></Private> }/>
         </Routes>
     )
 }

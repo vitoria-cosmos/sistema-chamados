@@ -5,7 +5,8 @@ import { auth, db } from '../services/firebaseConnection';
 
 // importando o método para que possamos criar uma conta
 // depois, vamos importar o método de fazer login
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+// o método signOut é para fazer o logout do sistema
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 // agora vamos pegar os métodos para acessar o banc de dados
 import { doc, getDoc, setDoc } from 'firebase/firestore';
@@ -21,9 +22,28 @@ export const AuthContext = createContext({});
 function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loadingAuth, setLoadingAuth] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     // instanciando o navigate
     const navigate = useNavigate();
+
+    // useEffect para mantermos o usuário logado
+    useEffect(() => {
+        async function loadUser() {
+            // acessa os dados do localStorage para ver se tem usuário
+            const storageUser = localStorage.getItem('@ticketsPRO')
+
+            if(storageUser) {
+                // transformando a string em objeto novamente
+                // coloco os dados do usuário dentro da state de user para que possamos manter o login
+                setUser(JSON.parse(storageUser));
+                setLoading(false);
+            }
+
+            setLoading(false);
+        }
+        loadUser();
+    }, [])
 
     async function signIn(email, password) {
         // console.log(email);
@@ -110,6 +130,16 @@ function AuthProvider({ children }) {
         localStorage.setItem('@ticketsPRO', JSON.stringify(data))
     }
 
+    async function logout() {
+        // vamos deslogar o usuário e apagar os dados do localStorage
+        // e também vamos deixar a state de user nulo, onde estão os dados do usuário
+        // temos que passar para dentro da função o auth, que é a autenticação com as credenciais
+        await signOut(auth);
+        localStorage.removeItem('@ticketsPRO');
+        setUser(null);
+
+    }
+
     return (
         <AuthContext.Provider
         // !!user vai converter a variável user para booleano
@@ -119,7 +149,9 @@ function AuthProvider({ children }) {
             user,
             signIn,
             signUp,
-            loadingAuth
+            logout,
+            loadingAuth,
+            loading
             }}>
             {children}
         </AuthContext.Provider>
