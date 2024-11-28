@@ -1,0 +1,100 @@
+
+.sidebar {
+    margin: 0;
+    padding: 0;
+    background-color: #181c2e;
+    /* a posição do elemento vai ser fixa
+    vira uma caixinha na esquerda da tela que só cabe o conteúdo do elemento */
+    position: fixed;
+
+    /* faz com que a caixinha se extenda verticalmente */
+    height: 100%;
+
+    /* o overflow é para o elemento filho se encaixar dentro do elemento pai
+    o auto é para que caso o elemnto filho seja maior que o pai, vai ter um scroll */
+    overflow: auto;
+}
+
+.sidebar div {
+    /* aqui vamos ter o fundo da div com uma imagem */
+    background: url('../../assets/cover.png');
+    background-color: #181c2e;
+    /* a imagem no fundo vai ser centralizada */
+    background-position: center;
+
+    /* Aqui faz com que a imagem não fique se repetindo quando o elemnto pai é maior.
+    A imagem só vai aparecer uma vez */
+    background-repeat: no-repeat;
+
+    /* o tamanho da imagem vai cobrir todo o elemento pai  */
+    background-size: cover;
+
+    /* a altura dessa div vai tomar o tamanho da tela */
+    height: 150px;
+
+}
+
+.sidebar div {
+    padding-top: 30px;
+}
+
+.sidebar div img {
+    width: 90px;
+    height: 90px;
+
+    /* a imagem vai ser um elemento block, que significa que ela vai ocupar uma linha só pra ela
+    fica mais fácil de definir seu alinhamento horizontal */
+    display: block;
+    
+    /* distribui os espaços dos lados da imagem automaticamente, deixando-a centralizada */
+    margin: auto;
+
+    /* a imagem vai ser arredondada, pois a sua altura e largura são iguais */
+    border-radius: 50%;
+
+    /* a imagem vai sempre caber no tamanho definido para ela */
+    object-fit: cover;
+
+    /* dá um sobreamento nas bordas da imagem */
+    filter: drop-shadow(3px 3px 6px #121212);
+
+    /* compatibilidade em alguns navegadores */
+    -webkit-filter: drop-shadow(2px 3px 6px #121212);
+}
+
+.sidebar a {
+    /* aqui faz com que os links fiquem posicionados um em cada linha */
+    display: block;
+
+    /* distancia entre os links e ao redor deles */
+    padding: 16px;
+
+    /* faz com que o link e o icone possam ser configurados com flex-box */
+    display: flex;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.7);
+
+    /* o icone e o link vão ficar em juntos em uma linha */
+    flex-direction: row;
+
+    /* alinha o icone e o link no centro horizontalmente */
+    align-items: center;
+
+    /* transição lenta quando algo é mudado no elemento */
+    transition: ease-in-out 0.4s;
+}
+
+.sidebar a svg {
+    margin-right: 0.5rem;
+}
+
+.sidebar a:hover {
+    /* quando o usuário passar o mouse em cima do elemento, vai haver a transition com as mudanças abaixo */
+    background-color: #121212;
+    color: #fff;
+}
+
+.content {
+    margin-left: 200px;
+    padding: 1px 16px;
+}
