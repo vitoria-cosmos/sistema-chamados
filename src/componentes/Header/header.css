@@ -1,10 +1,13 @@
 
 .sidebar {
+    width: 200px;
     margin: 0;
     padding: 0;
     background-color: #181c2e;
+
     /* a posição do elemento vai ser fixa
     vira uma caixinha na esquerda da tela que só cabe o conteúdo do elemento */
+    /* não importa se o usuário de um scroll na tela, o conteu´do vai aparecer fixado na tela da página e ele sempre vai ver */
     position: fixed;
 
     /* faz com que a caixinha se extenda verticalmente */
@@ -94,7 +97,54 @@
     color: #fff;
 }
 
+/* aqui estamos movendo o conteúdo principal 200px a direita */
 .content {
     margin-left: 200px;
     padding: 1px 16px;
+}
+/* media query para ajustar o conteúdo quando a tela tiver até 700px */
+@media screen and (max-width: 700px) {
+    .sidebar {
+        /* a largura do sidebar vai ser 100% da tela */
+        width: 100%;
+
+        /* altura auto vai ser do tamanho do conteúdo que está dentro */
+        height: auto;
+
+        /* a posição não fica mais presa na tela */
+        /* volta para a sua posição original como elemento */
+        /* os movimentos que ele faz só afeta ele mesmo, sem empurrar outros elementos */
+        position: relative;
+    }
+
+    /* como o side bar ocupa a tela toda não precisamos mais de margin a esquerda */
+    div.content {
+        margin-left: 0;
+    }
+
+    .sidebar a {
+        /* faz com que os links fiquem alinhados horizontalmente */
+        /* eles vão flutuar para o lado esquerdo */
+        float: left;
+    }
+
+    .sidebar div {
+        display: none;
+    }
+
+    .sidebar a svg {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+    .sidebar a {
+        text-align: center;
+        float: none;
+    }
+
+    .sidebar a svg {
+        display: none;
+    }
 }
