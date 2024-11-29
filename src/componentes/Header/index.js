@@ -32,7 +32,7 @@ export default function Header() {
                 Chamados
             </Link>
 
-            <Link to='/customers'>
+            <Link to='/custumers'>
                 <FiUser color='#fff' size={24}/>
                 Clientes
             </Link>

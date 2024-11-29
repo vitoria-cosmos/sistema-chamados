@@ -15,7 +15,7 @@ export default function Profile(){
                         <FiSettings size={25}/>
                     </Title>
                 </div>                
-                <h1>Página perfil</h1>
+               
             </div>
            
         </div>
