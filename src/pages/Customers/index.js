@@ -5,16 +5,51 @@ import { FiUser } from 'react-icons/fi';
 
 import { useState} from 'react';
 
+// importar o banco de dados
+import { db } from '../../services/firebaseConnection';
+import {addDoc, collection } from 'firebase/firestore';
+
+// importar a notificação de sucesso
+import { toast } from 'react-toastify';
+
 export default function Customers() {
 
     const [nome, setNome] = useState('');
     const [cnpj, setCnpj] = useState('');
     const [endereco, setEndereco] = useState('');
 
-    function handleRegister(e) {
+    // a função tem que ser assíncrona, pois ela vai ter que se comunicar com
+    // o banco de dados e isso demora, por isso, o resto do código não pode parar.
+    async function handleRegister(e) {
         e.preventDefault();
         // previnir que a página seja atualizada
-        alert("TESTE")
+        // alert("TESTE")
+
+        // se não faltar nenhuma informação, podemos cadastrar os dados
+        if (nome !== '' && cnpj !== '' && endereco !== '') {
+            // o addDoc cria um id automaticamente
+            await addDoc(collection(db, "customers"), {
+                nomeFantasia: nome,
+                cnpj: cnpj,
+                endereco: endereco
+
+            })
+            .then(() => {
+                // limpar os campos
+                setNome('');
+                setCnpj('');
+                setEndereco('');
+                toast.success('Cliente cadastrado com sucesso!');
+            })
+            .catch((error) => {
+                console.log(error)
+                toast.error("Erro ao fazer o cadastro.")
+
+            })
+
+        } else {
+            toast.error('Preencha todos os campos!');
+        }
     }
 
     return (
