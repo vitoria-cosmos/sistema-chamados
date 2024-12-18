@@ -49,9 +49,13 @@ export default function Dashboard() {
                         <tr>
                             <td data-label="Cliente">Mercado Esquina</td>
                             <td data-label="Assunto">Suporte</td>
-                            <td data-label="Assunto">Em aberto</td>
-                            <td data-label="Assunto">12/05/2022</td>
-                            <td>
+                            <td data-label="Status">
+                                <spna className='badge' style={{ backgroundColor: '#999'}}>
+                                    Em aberto
+                                </spna>
+                            </td>
+                            <td data-label="cadastrado">12/05/2022</td>
+                            <td data-label='#'>
                                 <button className='action' style={{ backgroundColor: '#3583f6'}}>
                                     <FiSearch color='#fff' size={17}/>
                                 </button>
