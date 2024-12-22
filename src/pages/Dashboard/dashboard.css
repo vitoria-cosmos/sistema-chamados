@@ -19,6 +19,7 @@
     transition: ease-in-out 0.3s;
 }
 
+/* aqui estamos dando um espaçamento direito no ícone plus */
 .new svg {
     margin-right: 5px;
 }
@@ -26,25 +27,26 @@
 .new:hover {
     background-color: #5fd204;
     transform: scale(1.1);
-    /* aumenta o elemento */
+    /* aumenta o elemento quando o mouse está sobre o elemento */
 }
 
-.dashboard {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
 
 table {
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     margin: 0;
     padding: 0;
     width: 100%;
+
+    /* as colunas da tabela tem tamanho fixo, o navegador não vai se intrometer nas dimensões dos elementos */
+    /* o texto pode quebrar linha */
+    /* se fosse auto, o tamanho ia ser ajustado conforme as dimensões do conteúdo */
     table-layout: fixed;
+
+    /* aqui o collapse faz com que as bordas da tabela sejam mais clean e menos grossas */
     border-collapse: collapse;
 }
 
+/* o caption adiciona um título na tabela */
 table caption {
     font-size: 1.5em;
     margin: 0.5em 0 0.75em;
@@ -63,7 +65,11 @@ table th, table td {
 
 table th {
     font-size: 0.85em;
+
+    /* dá espaços entre as letras das palavras */
     letter-spacing: 0.1em;
+
+    /* transforma as letras das palavras em maiúsculas */
     text-transform: uppercase;
 }
 
@@ -71,11 +77,16 @@ table td .action {
     border: 0;
     padding: 5px;
     border-radius: 4px;
+
+    /* elementos inline ficam na mesma linha, já elementos block ocupam uma linha inteira */
+    /* o inline-block deixa todos os elementos na mesma linha, lado a lado */
+    /* as dimensoes desses elementos podem ser ajustáveis */
     display: inline-block;
     margin-right: 3px;
 }
 
 table td .action svg {
+    /* alinha o ícone svg no meio do conteúdo */
     vertical-align: middle;
 }
 
@@ -85,8 +96,10 @@ table td .badge {
     color: #fff;
 }
 
+/* estilos para telas até 600px */
 @media screen and (max-width: 600px) {
     table {
+        /* em telas pequenas não vai existir bordas */
         border: 0;
     }
 
@@ -95,30 +108,48 @@ table td .badge {
     }
 
     table thead {
+        /* o tablehead é ocultado da tela */
+
+        /* remove bordas do cabeçalho */
         border: none;
         height: 1px;
+
+        /* move para um local invisível */
         margin: -1px;
+
+        /* o overflow chidden controle o que acontece quando o conteúexcede as bordas do elemento */
         overflow: hidden;
         padding: 0;
+
+        /* não ocupa espaço no layout, co isso, os outros elementos não percebem ele */
+        /* elementos absolute flutuam ddentro do container */
         position: absolute;
         width: 1px;
     }
 
     table tr {
         border-bottom: 3px solid #ddd;
+        /* cada elemento da tabela vai ficar em uma linha */
         display: block;
         margin-bottom: 0.60em;
     }
 
     table td {
         border-bottom: 1px solid #ddd;
+
+        /* faz com que as células pulem de linha */
         display: block;
         font-size: 0.8em;
+
+        /* alinha os textos da cécula para a direita */
         text-align: right;
     }
 
     table td::before {
+        /* o cabeçário vai ficar a direita */
         content: attr(data-label);
+
+        /* o conteúdo vai ser posicionado a esquerda */
         float: left;
         font-weight: bold;
         text-transform: uppercase;

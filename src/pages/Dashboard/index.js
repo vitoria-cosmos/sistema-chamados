@@ -38,6 +38,7 @@ export default function Dashboard() {
                 <table>
                     <thead>
                         <tr>
+                            {/* o atributo col diz que cada th faz parte de uma coluna */}
                             <th scope='col'>Cliente</th>
                             <th scope='col'>Assunto</th>
                             <th scope='col'>Status</th>
