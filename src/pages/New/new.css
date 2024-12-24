@@ -2,6 +2,7 @@
 form textarea {
     /* eu não quero que o usuário possa manipular o tamanho do textarea */
     resize: none;
+    height: 105px;
 }
 
 form input[type="radio"] {
