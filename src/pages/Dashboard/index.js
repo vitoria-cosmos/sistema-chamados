@@ -35,6 +35,11 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true);
     const [isEmpty, setIsEmpty] = useState(false);
 
+    // último documento renderizado
+    const [lastDocs, setLastDocs] = useState();
+
+    const [loadingMore, setLoadingMore] = useState(false);
+
     // async function handleLogout() {
     //     await logout();
     // }
@@ -84,15 +89,34 @@ export default function Dashboard() {
                 })
             })
 
+            // pegando o último item
+            const lastDoc = querySnapshot.docs[querySnapshot.docs.length - 1] // Pegando o último item
+            console.log('último item: ', lastDoc);
+
             // estamos usando o spread operator para que possamos ficar adicionando novos chamados
             // na lista quando já houver
             // eu não quero substituir, mas incrementaraos que já existiam
             setChamados(chamados => [...chamados, ...lista])
+
+            // setar o último doc na state
+            setLastDocs(lastDoc);
+
             console.log('teste lista: ',lista)
         } else {
             setIsEmpty(true);
         }
 
+        setLoadingMore(false);
+
+
+    }
+
+    async function handleMore() {
+        setLoadingMore(true);
+
+        const q = query(listaRef, orderBy('created', 'docs'), startAfter(lastDocs), limit(5))
+        const querySnapshot = await getDocs(q);
+        await updateState(querySnapshot);
 
     }
 
@@ -175,7 +199,7 @@ export default function Dashboard() {
                                                 <td data-label="Cliente">{item.cliente}</td>
                                                 <td data-label="Assunto">{item.assunto}</td>
                                                 <td data-label="Status">
-                                                    <spna className='badge' style={{ backgroundColor: '#999'}}>
+                                                    <spna className='badge' style={{ backgroundColor: item.status === 'Aberto'? '#5cb85c' : '#999' }}>
                                                         {item.status}
                                                     </spna>
                                                 </td>
@@ -193,6 +217,14 @@ export default function Dashboard() {
                                     })}
                                 </tbody>
                             </table>
+
+                            {/* se a state está com o valor true, então... */}
+                            {/* ele só vai renderizar essa linha se a state tiver o valor true */}
+                            {loadingMore && <h3>Buscando mais chamados...</h3>}
+
+                            {/* se não tiver carregando e se a lista não estiver vazia, então... */}
+
+                            {!loadingMore && !isEmpty && <button className='btn-more' onClick={handleMore}>Buscar mais</button>}
                         
                         
                         </>
