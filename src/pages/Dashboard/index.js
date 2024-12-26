@@ -22,6 +22,9 @@ import { db } from '../../services/firebaseConnection';
 // biblioteca para formatar a data
 import { format } from 'date-fns';
 
+// IMPORTAR O NOSSO MODAL
+import Modal from '../../componentes/Modal';
+
 // fazer a nossa referencia, em que iremos querer acessar a coleção de chamados
 const listaRef = collection(db, "chamados");
 
@@ -235,6 +238,7 @@ export default function Dashboard() {
                 
                 </>
             </div>
+            <Modal/>
             
             {/* <button onClick={handleLogout}>Sair da conta</button> */}
         </div>
