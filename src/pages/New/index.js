@@ -22,6 +22,9 @@ import { collection, getDocs, getDoc, doc, addDoc } from 'firebase/firestore';
 // importar o toast com as notificações personalizadas 
 import { toast } from 'react-toastify'
 
+// importar esse hook para sabermos o id do item
+import { useParams } from 'react-router-dom';
+
 
 // aqui vamos acessar uma coleção chamada customers
 const listRef = collection(db, "customers");
@@ -42,8 +45,18 @@ export default function New() {
     // usuário selecionado, vai começar na posição 0
     const [customerSelected, setCustomerSelected] = useState(0);
 
+    // eu quero pegar o nosso id 
+    const { id } = useParams(); 
+
+    const [idCustomer, setIdCustomer] = useState(false);
+
 
     useEffect(() => {
+
+        // estamos realmente pegando o id
+        // console.log(id);
+
+
         async function loadCustomers() {
             // vamos pegar tudo que tem dentro da coleção customers
             const querySnapshot = await getDocs(listRef)
@@ -71,6 +84,10 @@ export default function New() {
                 // se tiver item na lista, vamos prosseguir
                 setCustomers(lista);
                 setLoadCustomer(false);
+
+                if (id) {
+                    loadId(lista);
+                }
             })
             .catch((error) => {
                 console.log("Erro ao buscar os clientes: ", error);
@@ -79,7 +96,35 @@ export default function New() {
             })
         }
         loadCustomers();
-    }, [])
+
+
+    }, [id])
+
+
+    // buscar o chamado de um id específico
+    async function loadId(lista) {
+        const docRef = doc(db, "chamados", id);
+        await getDoc(docRef)
+        .then((snapshot) => {
+            setAssunto(snapshot.data().assunto)
+            setStatus(snapshot.data().status)
+            setComplemento(snapshot.data().complemento);
+
+            // achar o index do cliente atual
+            let index = lista.findIndex(item => item.id === snapshot.data().clienteId)
+            setCustomerSelected(index);
+
+            // vou informar que temos id para editarmos
+            // estamos em uma tela para editar chamados
+            setIdCustomer(true)
+        })
+        .catch((error) => {
+            console.log(error)
+            setIdCustomer(false);
+        })
+    }
+
+
     // função para mudar o status
     function handleOptionChange(e) {
         setStatus(e.target.value);
@@ -102,6 +147,12 @@ export default function New() {
     async function handleRegister(e) {
         e.preventDefault();
         // alert('TESTE');
+
+        // se tiver um id, significa que queremos editar
+        if (idCustomer) {
+            alert('EDITANDO CHAMADO')
+            return;
+        }
 
         // vamos criar uma coleção chamada chamados e dentro vamos adicionar os documentos com
         // os dados dos campos do formulário que queremos salvar no banco

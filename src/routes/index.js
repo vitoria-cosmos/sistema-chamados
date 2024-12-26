@@ -31,6 +31,9 @@ function RoutesApp() {
             <Route path='/customers' element={ <Private> <Customers/></Private>}/>
             
             <Route path='/new' element={<Private> <New/> </Private>}/>
+
+            {/* aqui a gente está esperando que passem um id */}
+            <Route path='/new/:id' element={<Private> <New/> </Private>}/>
         </Routes>
     )
 }
