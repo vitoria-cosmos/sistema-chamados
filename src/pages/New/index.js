@@ -17,13 +17,13 @@ import { AuthContext } from '../../contexts/auth';
 import { db } from '../../services/firebaseConnection';
 
 // pegar a coleção, os documentos, um item específico e o nosso doc 
-import { collection, getDocs, getDoc, doc, addDoc } from 'firebase/firestore';
+import { collection, getDocs, getDoc, doc, addDoc, updateDoc } from 'firebase/firestore';
 
 // importar o toast com as notificações personalizadas 
 import { toast } from 'react-toastify'
 
 // importar esse hook para sabermos o id do item
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 
 // aqui vamos acessar uma coleção chamada customers
@@ -49,6 +49,9 @@ export default function New() {
     const { id } = useParams(); 
 
     const [idCustomer, setIdCustomer] = useState(false);
+
+    // hook para direcionar o usuário para uma página
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -150,7 +153,29 @@ export default function New() {
 
         // se tiver um id, significa que queremos editar
         if (idCustomer) {
-            alert('EDITANDO CHAMADO')
+            // alert('EDITANDO CHAMADO')
+
+            // atualizando chamado
+            const docRef = doc(db, "chamados", id)
+            await updateDoc(docRef, {
+                cliente: customers[customerSelected].nomeFantasia,
+                clienteId: customers[customerSelected].id,
+                assunto: assunto,
+                complemento: complemento,
+                status: status,
+                userId: user.uid,
+            })
+            .then(() => {
+                toast.info('Chamado atualizado com sucesso!')
+                setCustomerSelected(0)
+                setComplemento('')
+                navigate('/dashboard')
+            })
+            .catch((error) => {
+                toast.error('Ops, erro ao atualizar esse chamado!')
+                console.log(error)
+            })
+
             return;
         }
 
@@ -182,7 +207,7 @@ export default function New() {
         <div>
             <Header/>
             <div className='content'>
-                <Title name="Novo chamado">
+                <Title name={id ? "Editar chamado" : "Novo chamado"}>
                     <FiPlusCircle size={25}/>
                 </Title>
 
