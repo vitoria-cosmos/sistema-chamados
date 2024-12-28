@@ -43,6 +43,12 @@ export default function Dashboard() {
 
     const [loadingMore, setLoadingMore] = useState(false);
 
+    // state para controlar a abertura do modal
+    const [showPostModal, setShowPostModal] = useState(false);
+
+    // state para guardar as informações do chamado
+    const [detail, setDetail] = useState();
+
     // async function handleLogout() {
     //     await logout();
     // }
@@ -117,10 +123,16 @@ export default function Dashboard() {
     async function handleMore() {
         setLoadingMore(true);
 
-        const q = query(listaRef, orderBy('created', 'docs'), startAfter(lastDocs), limit(5))
+        const q = query(listaRef, orderBy('created', 'desc'), startAfter(lastDocs), limit(5))
         const querySnapshot = await getDocs(q);
         await updateState(querySnapshot);
 
+    }
+
+    function toggleModal(item) {
+        console.log(item);
+        setShowPostModal(!showPostModal);
+        setDetail(item);
     }
 
     if (loading) {
@@ -208,7 +220,7 @@ export default function Dashboard() {
                                                 </td>
                                                 <td data-label="cadastrado">{item.createdFormat}</td>
                                                 <td data-label='#'>
-                                                    <button className='action' style={{ backgroundColor: '#3583f6'}}>
+                                                    <button className='action' style={{ backgroundColor: '#3583f6'}} onClick={ () => toggleModal(item)}>
                                                         <FiSearch color='#fff' size={17}/>
                                                     </button>
                                                     <Link to={`/new/${item.id}`} className='action' style={{ backgroundColor: '#f6a935'}}>
@@ -238,7 +250,15 @@ export default function Dashboard() {
                 
                 </>
             </div>
-            <Modal/>
+            {/* vamos mostrar o modal só se ele estiver true */}
+            {showPostModal && (
+                <Modal 
+                conteudo={detail}
+                close={() => setShowPostModal(!showPostModal)}
+                
+                
+                />
+            )}
             
             {/* <button onClick={handleLogout}>Sair da conta</button> */}
         </div>

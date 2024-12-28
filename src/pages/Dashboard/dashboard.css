@@ -97,7 +97,7 @@ table td .action svg {
     vertical-align: middle;
 }
 
-table td .badge {
+.badge {
     padding: 3px;
     border-radius: 3px;
     color: #fff;
